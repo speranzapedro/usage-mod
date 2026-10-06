@@ -1,0 +1,8 @@
+{
+  "name": "usage-mod",
+  "version": "1.0.0",
+  "description": "Mostra quanto você já usou da janela de 5 horas e da semanal, e quando cada uma reinicia, numa faixa acima do chat. 8 personalizações: Padrão, LoL, CS, Carro, The Sims, Pokémon, Pac-Man e Windows 95.",
+  "author": { "name": "Pedro Castro" },
+  "license": "MIT",
+  "keywords": ["uso", "usage", "limites", "rate limits", "mod", "personalização"]
+}

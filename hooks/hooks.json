@@ -1,0 +1,4 @@
+{
+  "description": "Usage Mod: barra de uso acima do chat",
+  "modules": ["./register.js"]
+}

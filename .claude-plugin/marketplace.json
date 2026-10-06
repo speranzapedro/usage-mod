@@ -1,0 +1,17 @@
+{
+  "name": "pedro-mods",
+  "owner": {
+    "name": "Pedro Castro"
+  },
+  "metadata": {
+    "description": "Mods do Claude Code feitos pelo Pedro: por enquanto, a barra de uso do plano."
+  },
+  "plugins": [
+    {
+      "name": "usage-mod",
+      "source": "./",
+      "description": "Barra de uso do plano (5 horas e semanal) acima do chat, com 8 personalizações.",
+      "version": "1.0.0"
+    }
+  ]
+}
