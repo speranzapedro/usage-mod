@@ -44,7 +44,7 @@ function setup(on) {
   return saved
 }
 
-test('every texture draws a valid band on the terminal and the desktop', async ($, on) => {
+test('every texture draws a valid band on the desktop, and nothing on the terminal', async ($, on) => {
   setup(on)
   await $.session.measure({ context: { window: 200000 }, rateLimits: LIMITS, changed: ['rateLimits'] })
 
@@ -65,9 +65,10 @@ test('every texture draws a valid band on the terminal and the desktop', async (
     }
     await desktop.unmount()
 
+    // The terminal keeps Claude Code's own band
     const terminal = await $.ui.mount({ ...BAND, surface: 'terminal' })
-    expect(await terminal.find({ type: 'Text', text: /%/ })).toBeDefined()
-    expect(await terminal.find({ type: 'Svg' })).toBeUndefined()
+    expect(await terminal.find({ type: 'Text', text: 'drawn by Claude Code' })).toBeDefined()
+    expect(await terminal.find({ key: 'texture' })).toBeUndefined()
     await terminal.unmount()
   }
 })

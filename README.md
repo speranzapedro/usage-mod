@@ -2,7 +2,7 @@
 
 **Português** · [English](#english)
 
-Uma faixa logo acima da caixa de chat do Claude Code que mostra quanto você já **usou** da janela de **5 horas** e da janela **semanal** do seu plano, e quando cada uma **reinicia**. Com 8 personalizações.
+Uma faixa logo acima da caixa de chat do **app desktop** do Claude Code que mostra quanto você já **usou** da janela de **5 horas** e da janela **semanal** do seu plano, e quando cada uma **reinicia**. Com 8 personalizações.
 
 ![As 8 personalizações no tema claro](docs/personalizacoes-light.png)
 
@@ -10,7 +10,7 @@ Os números são os mesmos da tela de uso do Claude: vêm do próprio Claude Cod
 
 ## Instalar
 
-Requer Claude Code **2.1.286 ou mais novo** (app Desktop ou terminal).
+Requer o **app desktop** do Claude (aba Code), com Claude Code **2.1.286 ou mais novo**. No terminal o mod não desenha nada: a ideia é ter o uso à vista no app, sem abrir a tela de uso.
 
 ```bash
 claude plugin marketplace add speranzapedro/usage-mod
@@ -38,7 +38,7 @@ A personalização escolhida e o estado escondido ficam salvos entre as conversa
 
 Padrão, League of Legends, Counter-Strike, Painel de carro, The Sims, Pokémon, Pac-Man e Windows 95. Todas dizem o mesmo, do mesmo jeito: quanto de cada janela já foi **usado** e quando ela **reinicia**.
 
-No app Desktop cada personalização pinta a faixa inteira, com cantos arredondados como os da caixa de chat, no tema claro e no escuro. As fontes vão embutidas nos desenhos, então fica igual em qualquer computador. No terminal, a faixa vira duas linhas de texto colorido.
+Cada personalização pinta a faixa inteira, com cantos arredondados como os da caixa de chat, no tema claro e no escuro. As fontes vão embutidas nos desenhos, então fica igual em qualquer computador.
 
 ![As 8 personalizações no tema escuro](docs/personalizacoes-dark.png)
 
@@ -77,9 +77,9 @@ Código sob a licença MIT (`LICENSE`). As fontes embutidas seguem a SIL Open Fo
 
 ## English
 
-A band right above Claude Code's chat box showing how much of your plan's **5-hour** and **weekly** windows you have **used**, and when each one **resets**. With 8 personalizations (the band's text is in Portuguese).
+A band right above the chat box in the Claude **desktop app** (Code tab) showing how much of your plan's **5-hour** and **weekly** windows you have **used**, and when each one **resets**. With 8 personalizations (the band's text is in Portuguese).
 
-**Install** (Claude Code 2.1.286 or newer, Desktop app or terminal):
+**Install** (Claude desktop app, Claude Code 2.1.286 or newer; the mod draws nothing in a terminal):
 
 ```bash
 claude plugin marketplace add speranzapedro/usage-mod

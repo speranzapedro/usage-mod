@@ -1,6 +1,6 @@
 // Usage Mod: shows the 5-hour and weekly plan limits in the band above the prompt,
 // with a picker of personalizations (textures) and a way to hide it completely.
-import { THEMES, isTheme, figures, windows, themeParts, textRows, plainBar, plainColor, themeThumb, topLeftCorner, bottomLeftCorner, marginPiece, spacerSvg, controlIcon } from './themes.js'
+import { THEMES, isTheme, figures, windows, themeParts, plainBar, plainColor, themeThumb, topLeftCorner, bottomLeftCorner, marginPiece, spacerSvg, controlIcon } from './themes.js'
 
 // What the band shows, shared by every hook below
 let theme = 'padrao'
@@ -23,10 +23,10 @@ export function register(on) {
     if (typeof savedTheme === 'string' && isTheme(savedTheme)) theme = savedTheme
     hidden = (await $.store.get('hidden')) === true
 
-    await $.command.register({ name: 'uso', description: 'Mostra ou esconde a barra de uso acima do chat', immediate: true })
+    await $.command.register({ name: 'uso', description: 'Mostra ou esconde a barra de uso acima do chat (app desktop)', immediate: true })
     await $.command.register({
       name: 'uso-tema',
-      description: 'Troca a personalização da barra de uso: ' + THEMES.map((t) => t.id).join(', '),
+      description: 'Troca a personalização da barra de uso (app desktop): ' + THEMES.map((t) => t.id).join(', '),
       immediate: true,
     })
 
@@ -65,8 +65,9 @@ export function register(on) {
 
   // Hidden: the band is gone (anything drawn there gets the app's full-width frame),
   // and a small "▴ uso" sits among the prompt's footer labels to bring it back
+  // The mod draws on the desktop app only: in a terminal, Claude Code goes on as without it
   on('ui.render', { component: 'SessionMode' }, async ($, e, next) => {
-    if (!hidden) return next(e)
+    if (!hidden || e.surface === 'terminal') return next(e)
     const { Box, Button } = $.ui.resolve(e)
     const theirs = await next(e)
     return Box({
@@ -91,9 +92,10 @@ export function register(on) {
   })
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    // A survey holds the band, or the person hid it: draw nothing here
-    if (e.props.hasSurvey || hidden) return next(e)
+    // A survey holds the band, the person hid it, or a terminal draws it: draw nothing here
+    if (e.props.hasSurvey || hidden || e.surface === 'terminal') return next(e)
     const els = $.ui.resolve(e)
+    if (!els.Svg) return next(e)
     const { Box, Text, Button } = els
 
     // Before the first turn's measure, ask for the limits; if that fails, the band
@@ -112,7 +114,6 @@ export function register(on) {
     const svg = (d) => els.Svg({ source: d.source, alt: d.alt, width: d.width, height: d.height })
     // A blank of a drawing's size, for the copies that only hold space or show a color
     const blank = (d) => svg(spacerSvg(d.width, d.height))
-    const drawsSvg = e.surface !== 'terminal' && !!els.Svg
     const toggleMenu = () => {
       menuOpen = !menuOpen
       $.ui.invalidate('ui.render')
@@ -146,17 +147,7 @@ export function register(on) {
       })
     // The brush and the chevron, in the personalization's own button style
     const control = (key, kind, onPress) => clickable(key, controlIcon(theme, kind), onPress)
-    const controls = drawsSvg
-      ? Box({ flexDirection: 'row', columnGap: 1, alignItems: 'center', children: [control('texture', 'brush', toggleMenu), control('hide', 'chevron', hide)] })
-      : Box({
-          flexDirection: 'row',
-          columnGap: 1,
-          alignItems: 'center',
-          children: [
-            Button({ key: 'texture', label: '🎨', plain: true, onPress: toggleMenu }),
-            Button({ key: 'hide', label: '▾', plain: true, dimColor: true, onPress: hide }),
-          ],
-        })
+    const controls = Box({ flexDirection: 'row', columnGap: 1, alignItems: 'center', children: [control('texture', 'brush', toggleMenu), control('hide', 'chevron', hide)] })
 
     // The menu: a grid of tiles with a thumbnail each, the current one outlined
     const pick = async (id) => {
@@ -181,7 +172,7 @@ export function register(on) {
         borderColor: t.id === theme ? '#d97757' : '#d6d4cc',
         hover: { backgroundColor: 'rgba(128,128,128,0.14)' },
         children: [
-          ...(drawsSvg ? [clickable('thumb-' + t.id, themeThumb(t.id), () => pick(t.id))] : []),
+          clickable('thumb-' + t.id, themeThumb(t.id), () => pick(t.id)),
           Button({ key: 'pick-' + t.id, label: t.label, plain: true, onPress: () => pick(t.id) }),
         ],
       })
@@ -224,25 +215,6 @@ export function register(on) {
       )
     }
 
-    // The terminal draws no Svg: every personalization there is two colored text rows
-    if (!drawsSvg) {
-      const cells = Math.max(10, Math.min(24, (e.props.bodyColumns ?? 80) - 60))
-      const rows = textRows(theme, f, cells).map((runs, i) =>
-        Box({
-          key: 'row-' + i,
-          flexDirection: 'row',
-          children: runs.map(([s, color, dim]) => Text({ ...(color ? { color } : {}), ...(dim ? { dimColor: true } : {}), children: [s] })),
-        }),
-      )
-      return withMenu(
-        Box({
-          flexDirection: 'row',
-          columnGap: 2,
-          alignItems: 'center',
-          children: [Box({ flexDirection: 'column', children: rows }), spacer, controls],
-        }),
-      )
-    }
 
     const parts = themeParts(theme, f)
 

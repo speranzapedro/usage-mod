@@ -454,35 +454,3 @@ export function themeThumb(id) {
   const label = THEMES.find((t) => t.id === id)?.label ?? id
   return draw(w, h, thumbs[id] ?? '', label)
 }
-
-// ---------------------------------------------------------------------------
-// Terminal: no Svg there, so each texture becomes two colored text rows that
-// say the same as the desktop: "Sessão 5h ███░░ 42% usado  reinicia em …"
-
-const TERM = {
-  // [filled cell, empty cell, 5-hour color, weekly color]
-  padrao: ['━', '━', null, null],
-  lol: ['█', '░', '#2f86d6', '#2ea34a'],
-  cs: ['▮', '▯', '#e3d7b0', '#e3d7b0'],
-  carro: ['▮', '▯', '#ff6a3d', '#ff6a3d'],
-  sims: ['█', '░', '#3fbf4f', '#3fbf4f'],
-  pokemon: ['█', '░', '#40a8f8', '#f8a030'],
-  pacman: ['·', ' ', '#ffb8ae', '#ffb8ae'],
-  win95: ['█', '░', '#1084d0', '#1084d0'],
-}
-
-// Rows of [text, color|null, dim] runs for the terminal
-export function textRows(theme, f, cells = 20) {
-  const [on, off, ...colors] = TERM[theme] ?? TERM.padrao
-  return windows(f).map((r, i) => {
-    const filled = Math.round((r.used / 100) * cells)
-    const fill = theme === 'padrao' ? plainColor(r.used) : colors[i]
-    return [
-      [r.label.padEnd(9) + ' ', null, true],
-      [on.repeat(filled), fill ?? null, false],
-      [off.repeat(cells - filled), null, true],
-      [` ${r.used}% usado`, null, false],
-      [`  ${r.reset}`, null, true],
-    ]
-  })
-}
