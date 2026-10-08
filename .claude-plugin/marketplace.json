@@ -11,7 +11,7 @@
       "name": "usage-mod",
       "source": "./",
       "description": "Barra de uso do plano (5 horas e semanal) acima do chat, com 8 personalizações.",
-      "version": "1.0.1"
+      "version": "1.0.2"
     }
   ]
 }

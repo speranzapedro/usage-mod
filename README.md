@@ -10,20 +10,24 @@ Os números são os mesmos da tela de uso do Claude: vêm do próprio Claude Cod
 
 ## Instalar
 
-Requer o **app desktop** do Claude (aba Code), com Claude Code **2.1.286 ou mais novo**. No terminal o mod não desenha nada: a ideia é ter o uso à vista no app, sem abrir a tela de uso.
+Requer o **app desktop** do Claude (aba Code). No terminal o mod não desenha nada: a ideia é ter o uso à vista no app, sem abrir a tela de uso.
+
+**Pelo app (sem terminal):** abra uma conversa no Code e cole esta mensagem para o Claude:
+
+> Instale o plugin do Claude Code `usage-mod`: adicione o marketplace do GitHub `speranzapedro/usage-mod` e instale `usage-mod@pedro-mods` (escopo de usuário), usando o comando `claude plugin` (no app, o executável está na variável de ambiente `CLAUDE_CODE_EXECPATH`).
+
+Ele roda os dois comandos e avisa quando terminar. Depois **feche e abra o app**, abra uma conversa nova e mande uma mensagem: a faixa aparece.
+
+**Pelo terminal** (se você tem o comando `claude`):
 
 ```bash
 claude plugin marketplace add speranzapedro/usage-mod
 claude plugin install usage-mod@pedro-mods
 ```
 
-Abra uma conversa nova e a faixa aparece. Para atualizar quando sair versão nova:
+**Atualizar** quando sair versão nova (não é automático): peça ao Claude no app "atualize o plugin `usage-mod@pedro-mods`", ou rode `claude plugin update usage-mod@pedro-mods`, e reinicie o app.
 
-```bash
-claude plugin marketplace update pedro-mods
-```
-
-Para remover: `claude plugin uninstall usage-mod`.
+**Remover:** peça "desinstale o plugin `usage-mod`", ou rode `claude plugin uninstall usage-mod`.
 
 ## Como usar
 
@@ -79,14 +83,18 @@ Código sob a licença MIT (`LICENSE`). As fontes embutidas seguem a SIL Open Fo
 
 A band right above the chat box in the Claude **desktop app** (Code tab) showing how much of your plan's **5-hour** and **weekly** windows you have **used**, and when each one **resets**. With 8 personalizations (the band's text is in Portuguese).
 
-**Install** (Claude desktop app, Claude Code 2.1.286 or newer; the mod draws nothing in a terminal):
+**Install** (Claude desktop app, Code tab; the mod draws nothing in a terminal). In a Code conversation, ask Claude:
+
+> Install the Claude Code plugin `usage-mod`: add the GitHub marketplace `speranzapedro/usage-mod` and install `usage-mod@pedro-mods` (user scope) with the `claude plugin` command (in the app, the executable is in the `CLAUDE_CODE_EXECPATH` environment variable).
+
+Then restart the app and open a new conversation. From a terminal with the `claude` command:
 
 ```bash
 claude plugin marketplace add speranzapedro/usage-mod
 claude plugin install usage-mod@pedro-mods
 ```
 
-Open a new conversation and the band shows up. Update with `claude plugin marketplace update pedro-mods`; remove with `claude plugin uninstall usage-mod`.
+Update with `claude plugin update usage-mod@pedro-mods` (updates aren't automatic); remove with `claude plugin uninstall usage-mod`.
 
 **Use**: the brush opens the personalization menu; the chevron hides the band, leaving a small "▴ uso" in the chat footer to bring it back. `/uso` shows or hides it; `/uso-tema <name>` picks a personalization (`padrao`, `lol`, `cs`, `carro`, `sims`, `pokemon`, `pacman`, `win95`). The numbers are the ones on Claude's usage screen, available on Pro/Max plans after the conversation's first reply.
 
